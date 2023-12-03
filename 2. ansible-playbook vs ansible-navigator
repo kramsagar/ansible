@@ -8,6 +8,11 @@ Steps:
 2. install ansible-navigator
 3. podman = this is one more command tool, it is container runtime interface (cri-o)
 
-ansible automation platform2.2 pull the images from redhat repostiry.
+ansible automation platform2.2 pull the images from redhat repostiry. Anible-core contains very specific packages. if we need more modules, then we need to instal user based community installation (python3 pip install ansible)
+But to avoid all this necessary module available inside aap2.2 inside one container image.
+
+
+
+
 
 
