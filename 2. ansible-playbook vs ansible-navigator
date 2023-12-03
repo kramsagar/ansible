@@ -11,6 +11,200 @@ Steps:
 ansible automation platform2.2 pull the images from redhat repostiry. Anible-core contains very specific packages. if we need more modules, then we need to instal user based community installation (python3 pip install ansible)
 But to avoid all this necessary module available inside aap2.2 inside one container image.
 
+What is the benefit of not installing all ansible (full community verion) vs aap2:
+
+1. if you install full version of ansible it will heavy load.
+2. instead aap2 create create image based on the required modules mentioned in ansible-playbook command. And loads and execute those modules.
+3. you can create one custom image and run the ansible-playbook
+
+Step1: install ansible-core  (as the package is already availble, just run below command)
+----------------------------
+ sudo yum install ansible-core
+
+
+bash-5.1$ /usr/bin/ansible-doc -l | wc -l
+69
+bash-5.1$
+
+
+bash-5.1$ /usr/bin/ansible --version
+ansible [core 2.12.2]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/ansadmin/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.9/site-packages/ansible
+  ansible collection location = /home/ansadmin/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible
+  python version = 3.9.10 (main, Feb  9 2022, 00:00:00) [GCC 11.2.1 20220127 (Red Hat 11.2.1-9)]
+  jinja version = 3.1.2
+  libyaml = True
+bash-5.1$
+
+------------------------------------------------------------------------------------------------------------------------
+#### install container runtime engine like podman or docker. bydefault redhat ha podman. so proceed with that.
+
+bash-5.1$ podman --version
+podman version 4.0.2
+bash-5.1$
+------------------------------------------------------------------------------------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------
+Requirement and ansible-navigator steps : https://ansible.readthedocs.io/projects/navigator/installation/#requirements
+
+### We have ansible by default in redhat packages, but ansible-navigator doesnt exist.
+
+bash-5.1$ sudo yum search ansible
+[sudo] password for ansadmin:
+Updating Subscription Management repositories.
+Unable to read consumer identity
+
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+Last metadata expiration check: 1:21:53 ago on Sunday 03 December 2023 01:35:00 AM.
+================================================= Name & Summary Matched: ansible =================================================
+ansible-collection-microsoft-sql.noarch : The Ansible collection for Microsoft SQL Server management
+ansible-collection-redhat-rhel_mgmt.noarch : Ansible Collection of general system management and utility modules and other plugins
+ansible-freeipa-tests.noarch : ansible-freeipa tests
+ansible-pcp.noarch : Ansible Metric collection for Performance Co-Pilot
+ansible-test.x86_64 : Tool for testing ansible plugin and module code
+====================================================== Name Matched: ansible ======================================================
+ansible-core.x86_64 : SSH-based configuration management, deployment, and task execution system
+ansible-freeipa.noarch : Roles and playbooks to deploy FreeIPA servers, replicas and clients
+==================================================== Summary Matched: ansible =====================================================
+rhc-worker-playbook.x86_64 : Python worker for Red Hat connector that launches Ansible Runner
+bash-5.1$ sudo yum search ansible-navigator
+Updating Subscription Management repositories.
+Unable to read consumer identity
+
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+Last metadata expiration check: 1:22:01 ago on Sunday 03 December 2023 01:35:00 AM.
+No matches found.
+bash-5.1$
+-------------------------------------------- Install navigator ----------------------------------------------------------------------------
+
+bash-5.1$ python3 -m pip install ansible-navigator --user
+Collecting ansible-navigator
+  Downloading ansible_navigator-3.5.0-py3-none-any.whl (297 kB)
+     |████████████████████████████████| 297 kB 1.9 MB/s
+Collecting ansible-lint>=6.19.0
+  Downloading ansible_lint-6.22.1-py3-none-any.whl (296 kB)
+     |████████████████████████████████| 296 kB 29.5 MB/s
+Collecting tzdata
+...
+Successfully installed Parsley-1.3 ansible-builder-3.0.0 ansible-compat-4.1.10 ansible-lint-6.22.1 ansible-navigator-3.5.0 ansible-runner-2.3.4 attrs-23.1.0 bindep-2.11.0 black-23.11.0 bracex-2.4 certifi-2023.11.17 charset-normalizer-3.3.2 click-8.1.7 distro-1.8.0 docutils-0.20.1 filelock-3.13.1 importlib-metadata-6.2.1 jsonschema-4.20.0 jsonschema-specifications-2023.11.2 lockfile-0.12.2 markdown-it-py-3.0.0 mdurl-0.1.2 mypy-extensions-1.0.0 onigurumacffi-1.3.0 pathspec-0.11.2 pbr-6.0.0 platformdirs-4.0.0 pygments-2.17.2 python-daemon-3.0.1 referencing-0.31.1 requests-2.31.0 requirements-parser-0.5.0 resolvelib-0.5.4 rich-13.7.0 rpds-py-0.13.2 ruamel.yaml-0.18.5 ruamel.yaml.clib-0.2.8 setuptools-69.0.2 subprocess-tee-0.4.1 tomli-2.0.1 types-setuptools-69.0.0.0 typing-extensions-4.8.0 tzdata-2023.3 wcmatch-8.5 yamllint-1.33.0 zipp-3.17.0
+
+bash-5.1$ echo 'export PATH=$HOME/.local/bin:$PATH' >> ~/.profile
+
+bash-5.1$ cat .profile
+export PATH=$HOME/.local/bin:$PATH
+
+bash-5.1$ source ~/.profile  ##load config in current session or restart session to avoid running this command
+
+bash-5.1$ ansible-navigator --version
+ansible-navigator 3.5.0
+
+------------------------------Launch ansible-navigator-----------
+bash-5.1$ ansible-navigator
+---------------------------------------------------------------------
+Execution environment image and pull policy overview
+---------------------------------------------------------------------
+Execution environment image name:     ghcr.io/ansible/creator-ee:v0.20.0
+Execution environment image tag:      v0.20.0
+Execution environment pull arguments: None
+Execution environment pull policy:    tag
+Execution environment pull needed:    True
+---------------------------------------------------------------------
+Updating the execution environment
+---------------------------------------------------------------------
+Running the command: podman pull ghcr.io/ansible/creator-ee:v0.20.0
+WARN[0000] The cgroupv2 manager is set to systemd but there is no systemd user session available
+WARN[0000] For using systemd, you may need to login using an user session
+WARN[0000] Alternatively, you can enable lingering with: `loginctl enable-linger 1002` (possibly as root)
+WARN[0000] Falling back to --cgroup-manager=cgroupfs
+WARN[0000] The cgroupv2 manager is set to systemd but there is no systemd user session available
+WARN[0000] For using systemd, you may need to login using an user session
+WARN[0000] Alternatively, you can enable lingering with: `loginctl enable-linger 1002` (possibly as root)
+WARN[0000] Falling back to --cgroup-manager=cgroupfs
+Trying to pull ghcr.io/ansible/creator-ee:v0.20.0...
+Getting image source signatures
+Copying blob 0afce0612807 done
+Copying blob 7b05cec1a1b5 done
+Copying blob 6a4437d12ad5 done
+Copying blob eaac7334e7ab done
+Copying blob 6fe2ec5efede done
+Copying blob dea7f84d568f done
+Copying blob 90e5f6bd07c8 done
+Copying blob 322be10184d0 done
+Copying blob e194cc6358ad done
+Copying blob b61759fbc163 done
+Copying blob 39b21c1fa8b3 done
+Copying blob 09a131db2ab7 done
+Copying blob 807c75530636 done
+Copying config 278a94cdb5 done
+Writing manifest to image destination
+Storing signatures
+278a94cdb5159adf04f0da2d8c84a9fb3368fe368627806a5ac38e96810b7d45
+ 0│Welcome
+ 1│————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+ 2│
+ 3│Some things you can try from here:
+ 4│- :collections                                    Explore available collections
+ 5│- :config                                         Explore the current ansible configuration
+ 6│- :doc <plugin>                                   Review documentation for a module or plugin
+ 7│- :help                                           Show the main help page
+ 8│- :images                                         Explore execution environment images
+ 9│- :inventory -i <inventory>                       Explore an inventory
+10│- :log                                            Review the application log
+11│- :lint <file or directory>                       Lint Ansible/YAML files (experimental)
+12│- :open                                           Open current page in the editor
+13│- :replay                                         Explore a previous run using a playbook artifact
+14│- :run <playbook> -i <inventory>                  Run a playbook in interactive mode
+15│- :settings                                       Review the current ansible-navigator settings
+16│- :quit                                           Quit the application
+17│
+18│happy automating,
+19│
+20│-winston
+
+
+--------------Check images it download first time ------
+bash-5.1$ podman images
+WARN[0000] The cgroupv2 manager is set to systemd but there is no systemd user session available
+WARN[0000] For using systemd, you may need to login using an user session
+WARN[0000] Alternatively, you can enable lingering with: `loginctl enable-linger 1002` (possibly as root)
+WARN[0000] Falling back to --cgroup-manager=cgroupfs
+WARN[0000] The cgroupv2 manager is set to systemd but there is no systemd user session available
+WARN[0000] For using systemd, you may need to login using an user session
+WARN[0000] Alternatively, you can enable lingering with: `loginctl enable-linger 1002` (possibly as root)
+WARN[0000] Falling back to --cgroup-manager=cgroupfs
+
+REPOSITORY                  TAG         IMAGE ID      CREATED       SIZE
+ghcr.io/ansible/creator-ee  v0.20.0     278a94cdb515  2 months ago  714 MB
+bash-5.1$
+
+-----------------------------------------Execution environment----------------------------------------------------------
+www.redhat.com/sysadmin/ansible-execution-environment-unconnected
+Execution Environments are basically Linux container images that help execute Ansible playbooks.
+Execution environment components contains to execute ansible automation jobs. These includes Python, Ansible, Ansible runner, 
+required python libraries and dependencies.
+
+Ansible-builder command help to create custom ansible execution environment. It helps you build container images with the definition file.
+
+Anible envi platform images -> anible builder ; then use env to run ansible navigator.
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
