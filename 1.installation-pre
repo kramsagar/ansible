@@ -1,0 +1,50 @@
+1.	How to install ansible?
+a.	Redhat9 by default installing ansible-core
+
+b.	To install:
+    i.	Yum install ansible-core
+
+2.	This ansible installation or it can be use by anyone?
+
+bash-5.1$ whoami
+ansadmin
+bash-5.1$ ansible-doc -l | wc -l
+69
+bash-5.1$
+
+bash-5.1$ su -
+Password:
+[root@anscontroller ~]# ansible
+ansible             ansible-connection  ansible-doc         ansible-inventory   ansible-pull
+ansible-config      ansible-console     ansible-galaxy      ansible-playbook    ansible-vault
+[root@anscontroller ~]# ansible^C
+[root@anscontroller ~]#
+
+
+If you see above ansadmin user and root also can be use ansible. 
+3.	So here one thing to conclude that ansible can install user specific or system wide also.
+
+4.	By default ansible-core give only very few module – 69. But you explicitly need to install community version to get more modules.
+
+5.	Lets uninstall existing system wide module:
+
+bash-5.1$ sudo yum remove ansible-core
+Updating Subscription Management repositories.
+Unable to read consumer identity
+
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+Dependencies resolved.
+===================================================================================================================================
+ Package                              Architecture           Version                          Repository                      Size
+===================================================================================================================================
+Removing:
+ ansible-core                         x86_64                 2.12.2-1.el9                     @rhelappstream                 9.3 M
+
+…
+Complete!
+bash-5.1$ ansible --version
+bash: ansible: command not found
+bash-5.1$
+
+
