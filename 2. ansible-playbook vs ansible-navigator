@@ -1,0 +1,13 @@
+in RHCE exam, we should use ansible-navigator for clearing the tasks.
+
+ansible-playbook: to execute all ansible playbooks
+ansible-navigator: ansible command line tools to execute all playbooks with container env.
+
+Steps:
+1. First install: ansible-core
+2. install ansible-navigator
+3. podman = this is one more command tool, it is container runtime interface (cri-o)
+
+ansible automation platform2.2 pull the images from redhat repostiry.
+
+
