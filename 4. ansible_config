@@ -16,7 +16,7 @@ ansible [core 2.12.2]
   config file = /tmp/ansible.cfg
 
 ------------------------------------------------------------------------------------------------------
-Priority-2: Look at user home directory
+Priority-2: gives priority to home directory .ansible.cfg file
 ------------------------------------------------------------------------------------------------------
 unset from envronment variable. 
 bash-5.1$ unset ANSIBLE_CONF=/tmp/ansible.cfg
@@ -34,19 +34,52 @@ ansible [core 2.12.2]
   config file = /home/ansadmin/.ansible.cfg
 bash-5.1$
 ------------------------------------------------------------------------------------------------------
-Priority-2: Look at user home directory
+Priority-3:  gives priority to current directory ansible.cfg file  (NOT .(dot)ansible.cfg
 ------------------------------------------------------------------------------------------------------
+bash-5.1$ pwd
+/home/ansadmin/proj-automations
+bash-5.1$ ls
+ansible.cfg
+bash-5.1$ ansible --version
+ansible [core 2.12.2]
+  config file = /home/ansadmin/proj-automations/ansible.cfg
+  configured module search path = ['/home/ansadmin/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.9/site-packages/ansible
+  ansible collection location = /home/ansadmin/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible
+  python version = 3.9.10 (main, Feb  9 2022, 00:00:00) [GCC 11.2.1 20220127 (Red Hat 11.2.1-9)]
+  jinja version = 3.1.2
+  libyaml = True
+bash-5.1$
+------------------------------------------------------------------------------------------------------
+Priority-4:  gives priority to allways home directory, if your PWD doesnt have ansible.cfg file. 
+------------------------------------------------------------------------------------------------------
+bash-5.1$ pwd
+/tmp
+bash-5.1$ ansible --version
+ansible [core 2.12.2]
+  config file = /home/ansadmin/.ansible.cfg
+  configured module search path = ['/home/ansadmin/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3.9/site-packages/ansible
+  ansible collection location = /home/ansadmin/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible
+  python version = 3.9.10 (main, Feb  9 2022, 00:00:00) [GCC 11.2.1 20220127 (Red Hat 11.2.1-9)]
+  jinja version = 3.1.2
+  libyaml = True
+bash-5.1$
+--------------------------------------------------------------------------------------------------------------------------
+Priority-5:  gives priority to allways ansible etc folder, if no variable in ENV, no file in Home dir, no file in PWD. 
+--------------------------------------------------------------------------------------------------------------------------
+bash-5.1$ printenv | grep -i ansible
+bash-5.1$
 
+bash-5.1$ mv /home/ansadmin/.ansible.cfg /home/ansadmin/.ansible1.cfg
 
-
-
-
-
-
-
-
-
-
+bash-5.1$ pwd
+/tmp
+bash-5.1$ ansible --version
+ansible [core 2.12.2]
+  config file = /etc/ansible/ansible.cfg
 
 
 
