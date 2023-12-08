@@ -1,1 +1,52 @@
+Ansible config file can have in different locations. Ansible look for this file for execution.
+
+------------------------------------------------------------------------------------------------------
+Priority-1: Looking env variable (ANSIBLE_CONFIG).
+------------------------------------------------------------------------------------------------------
+bash-5.1$ ansible --version
+ansible [core 2.12.2]
+  config file = /etc/ansible/ansible.cfg
+
+bash-5.1$ touch /tmp/ansible.cfg
+
+bash-5.1$ export ANSIBLE_CONFIG=/tmp/ansible.cfg
+
+bash-5.1$ ansible --version
+ansible [core 2.12.2]
+  config file = /tmp/ansible.cfg
+
+------------------------------------------------------------------------------------------------------
+Priority-2: Look at user home directory
+------------------------------------------------------------------------------------------------------
+unset from envronment variable. 
+bash-5.1$ unset ANSIBLE_CONF=/tmp/ansible.cfg
+bash-5.1$ unset ANSIBLE_CONFIG=/tmp/ansible.cfg
+
+bash-5.1$ cd ~
+bash-5.1$ whoami
+ansadmin
+bash-5.1$ pwd
+/home/ansadmin
+bash-5.1$
+bash-5.1$ touch .ansible.cfg   ----> inside home directory, it should start with .(dot), it is configuration file.
+bash-5.1$ ansible --version
+ansible [core 2.12.2]
+  config file = /home/ansadmin/.ansible.cfg
+bash-5.1$
+------------------------------------------------------------------------------------------------------
+Priority-2: Look at user home directory
+------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
 
