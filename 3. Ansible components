@@ -8,6 +8,7 @@ Ansible important files ->
     
 2. hosts inventory
       There are two types of inventories: by default inventory from ansible.cfg or else customized hosts list.
+      
 
 3. modules: These are python programs
      
