@@ -1,0 +1,258 @@
+Inventory file:
+1. it has -> ip address , hostname or fqdn
+2. hosts and groups of hosts and groups of groups
+---------------------------------------------------------------------------------------------------------
+1. lets create inventory and map it inside ansible.cfg file
+Note: There are two types of defaults group -> all, ungrouped
+All - all hosts inside inventory file
+ungrouped - The servers not part of any group are ungrouped hosts
+---------------------------------------------------------------------------------------------------------
+bash-5.1$ pwd
+/home/ansadmin/proj-automations
+bash-5.1$ ls -ltr
+total 8
+-rw-r--r--. 1 ansadmin ansadmin 63 Dec  8 20:19 ansible.cfg
+-rw-r--r--. 1 ansadmin ansadmin 45 Dec  8 20:30 inventory
+bash-5.1$ vi inventory
+bash-5.1$ cat inventory
+mnode2
+mnode3
+mnode4
+mnode1
+bash-5.1$ cat ansible.cfg
+[defaults]
+inventory=/home/ansadmin/proj-automations/inventory
+bash-5.1$
+
+############################################################# all  servers inside inventory irrespective of under groups and ungrouped etc., ######################
+bash-5.1$ ansible all -m ping   ######## here all show type of hostpattern, servername [if in case hostpattern and server name same, then priority goes to servername]
+mnode3 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode4 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+bash-5.1$
+############################################################# ungrouped servers ######################
+bash-5.1$ ansible ungrouped  -m ping
+mnode3 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode4 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+
+--------------------------------------------------------------------------------------------------------
+############################################################# specific servers (one or more) ######################
+
+bash-5.1$ ansible mnode1 -m ping
+mnode1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+bash-5.1$ ansible mnode1,mnode2 -m ping
+mnode1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+
+############################################################# specific servers (one or more) - special case ######################
+
+bash-5.1$ vi inventory
+bash-5.1$ cat inventory
+#mnode2
+mnode3
+mnode4
+#mnode1
+bash-5.1$ ansible mnode1,mnode2 -m ping
+[WARNING]: Could not match supplied host pattern, ignoring: mnode1
+[WARNING]: Could not match supplied host pattern, ignoring: mnode2
+[WARNING]: No hosts matched, nothing to do
+bash-5.1$
+
+Note; i have removed/commented two server, hence as the inventory doesnt have servers, then the ansible command fails
+
+############################################################# host groups ###################################
+
+bash-5.1$ cat inventory
+[web]
+mnode2
+mnode3
+[app]
+mnode4
+mnode1
+
+bash-5.1$ ansible web -m ping
+mnode2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode3 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+bash-5.1$ ansible app -m ping
+mnode1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode4 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+bash-5.1$
+############################################################# host groups of groups ###################################
+
+bash-5.1$ cat inventory
+mnode1
+[web]
+mnode2
+mnode3
+[app]
+mnode4
+[servers:children]
+web
+app
+bash-5.1$ ansible servers -m ping
+mnode2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode4 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode3 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+bash-5.1$
+
+bash-5.1$ ansible ungrouped -m ping
+mnode1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+bash-5.1$
+========================================================Available hosts to review=====================================================================================================================================
+
+bash-5.1$ cat inventory
+mnode1
+[web]
+mnode2
+mnode3
+[app]
+mnode4
+[servers:children]
+web
+app
+
+bash-5.1$ ansible all --list-host
+  hosts (4):
+    mnode1
+    mnode2
+    mnode3
+    mnode4
+bash-5.1$ ansible ungrouped --list-host
+  hosts (1):
+    mnode1
+bash-5.1$ ansible app --list-host
+  hosts (1):
+    mnode4
+bash-5.1$ ansible web --list-host
+  hosts (2):
+    mnode2
+    mnode3
+bash-5.1$
+
+==================================================================================================================================
+
+
+
+
+
+
+
+
+
