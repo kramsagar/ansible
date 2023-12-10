@@ -246,7 +246,50 @@ bash-5.1$ ansible web --list-host
     mnode3
 bash-5.1$
 
-==================================================================================================================================
+=====================================================use custom inventory file =============================================================================
+
+-rw-r--r--. 1 ansadmin ansadmin 63 Dec  8 20:19 ansible.cfg
+-rw-r--r--. 1 ansadmin ansadmin 68 Dec  9 11:46 inventory
+bash-5.1$ cp inventory hosts
+bash-5.1$ ansible -i hosts all -m ping
+mnode1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode3 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode4 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+mnode2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+bash-5.1$
+
+Note: by default ansible adds localhost implictly into inventory
+
+bash-5.1$ ansible localhost -m ping
+localhost | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+bash-5.1$
 
 
 
