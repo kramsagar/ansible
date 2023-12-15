@@ -1,4 +1,11 @@
+Flow ->
+=========
+1. go and find the inventory.
+2. find out what user ot use to connect [remote_user=<machine node user>]
+3. find out whether password less or pasword required authentication [remote_password=false/true]
+4. how many nodes need to connect in parelly. [fork]
 
+========================================================================================================================
 ### ansible confif to connect ssh server using root.
 bash-5.1$ cat ansible.cfg
 [defaults]
