@@ -1,1 +1,64 @@
 
+### ansible confif to connect ssh server using root.
+bash-5.1$ cat ansible.cfg
+[defaults]
+inventory=/home/ansadmin/proj-automations/inventory
+remote_user=root
+ask_pass=false
+
+## Remote host, not configured to allow root.
+[root@mnode1 tmp]# grep -i root /etc/ssh/sshd_config
+#PermitRootLogin prohibit-password
+# the setting of "PermitRootLogin without-password".
+#ChrootDirectory none
+[root@mnode1 tmp]#
+
+
+##Result of ansible ping command trying to communicate with remote host
+bash-5.1$ ansible mnode1 -m ping
+mnode1 | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to connect to the host via ssh: root@mnode1: Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password).",
+    "unreachable": true
+}
+================================================================ssh passwordless authentication established for node1 with ansadmin user===================================
+bash-5.1$ cat ansible.cfg
+[defaults]
+inventory=/home/ansadmin/proj-automations/inventory
+remote_user=ansadmin
+ask_pass=false
+
+## below confirms ansadmin user has password less authentication estblished already
+bash-5.1$ ssh ansadmin@mnode1
+Register this system with Red Hat Insights: insights-client --register
+Create an account or view all your systems at https://red.ht/insights-dashboard
+Last login: Fri Dec 15 10:21:44 2023 from 192.168.1.18
+[ansadmin@mnode1 ~]$ exit
+logout
+Connection to mnode1 closed.
+
+bash-5.1$ ansible mnode1 -m shell -a "cat /tmp/1.txt"
+mnode1 | CHANGED | rc=0 >>
+hellow
+bash-5.1$
+
+===================================================fork -- it indicates no of machine parelly can execute by ansible controller ========
+bash-5.1$ cat ansible.cfg
+[defaults]
+inventory=/home/ansadmin/proj-automations/inventory
+remote_user=ansadmin
+ask_pass=false
+forks=10
+
+##------> by default 5 nodes it connects parelly
+##------> if you declare which ever no of nodes, it will connect only those servers and print output immediatly.
+
+=============================================
+
+
+
+
+
+
+
+
