@@ -60,7 +60,30 @@ forks=10
 ##------> by default 5 nodes it connects parelly
 ##------> if you declare which ever no of nodes, it will connect only those servers and print output immediatly.
 
-=============================================
+=====================================================What if i dont declare remote_user & ask_pass ============================================
+1)  cretae config file
+bash-5.1$ cat ansible.cfg
+[defaults]
+inventory=/home/ansadmin/proj-automations/inventory
+
+2) login into controller with ansadmin
+bash-5.1$ whoami
+ansadmin
+bash-5.1$
+
+3) Now fire command. You will see it connect to remote nodes, with the user you current user as (ansadmin)
+bash-5.1$ ansible all -m shell -a "whoami"
+mnode4 | CHANGED | rc=0 >>
+ansadmin
+mnode1 | CHANGED | rc=0 >>
+ansadmin
+mnode3 | CHANGED | rc=0 >>
+ansadmin
+mnode2 | CHANGED | rc=0 >>
+ansadmin
+================================================================================================================================================================================
+
+
 
 
 
