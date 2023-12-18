@@ -1,0 +1,88 @@
+Module:
+=====================
+[rkyasan44@anscontroller ~]$ ansible-doc -l | grep file*
+assemble               Assemble configuration files from fragments
+blockinfile            Insert/update/remove a text block surrounded by mark...
+copy                   Copy files to remote locations
+fetch                  Fetch files from remote nodes
+file                   Manage files and file properties
+find                   Return a list of files based on specific criteria
+get_url                Downloads files from HTTP, HTTPS, or FTP to node
+git                    Deploy software (or files) from git checkouts
+include_vars           Load variables from files, dynamically within a task
+known_hosts            Add or remove a host from the `known_hosts' file
+lineinfile             Manage lines in text files
+slurp                  Slurps a file from remote nodes
+stat                   Retrieve file or file system status
+tempfile               Creates temporary files and directories
+template               Template a file out to a target host
+
+============= Module options
+[rkyasan44@anscontroller ~]$ ansible-doc file | head -1
+> ANSIBLE.BUILTIN.FILE    (/usr/lib/python3.9/site-packages/ansible/modules/file.py)
+
+============ Module python code
+[rkyasan44@anscontroller ~]$ cat /usr/lib/python3.9/site-packages/ansible/modules/file.py | head -5
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2012, Michael DeHaan <michael.dehaan@gmail.com>
+# Copyright: (c) 2017, Ansible Project
+[rkyasan44@anscontroller ~]$ cat /usr/lib/python3.9/site-packages/ansible/modules/file.py | head 10
+head: cannot open '10' for reading: No such file or directory
+[rkyasan44@anscontroller ~]$ cat /usr/lib/python3.9/site-packages/ansible/modules/file.py | head -10
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2012, Michael DeHaan <michael.dehaan@gmail.com>
+# Copyright: (c) 2017, Ansible Project
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
+[rkyasan44@anscontroller ~]$ cat /usr/lib/python3.9/site-packages/ansible/modules/file.py | head -100
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Copyright: (c) 2012, Michael DeHaan <michael.dehaan@gmail.com>
+# Copyright: (c) 2017, Ansible Project
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+from __future__ import absolute_import, division, print_function
+__metaclass__ = type
+
+
+DOCUMENTATION = r'''
+---
+module: file
+version_added: historical
+short_description: Manage files and file properties
+extends_documentation_fragment: [files, action_common_attributes]
+description:
+- Set attributes of files, symlinks or directories.
+- Alternatively, remove files, symlinks or directories.
+- Many other modules support the same options as the C(file) module - including M(ansible.builtin.copy),
+  M(ansible.builtin.template), and M(ansible.builtin.assemble).
+- For Windows targets, use the M(ansible.windows.win_file) module instead.
+options:
+  path:
+    description:
+    - Path to the file being managed.
+    type: path
+    required: yes
+    aliases: [ dest, name ]
+  state:
+    description:
+    - If C(absent), directories will be recursively deleted, and files or symlinks will
+      be unlinked. In the case of a directory, if C(diff) is declared, you will see the files and folders deleted listed
+      under C(path_contents). Note that C(absent) will not cause C(file) to fail if the C(path) does
+      not exist as the state did not change.
+    - If C(directory), all intermediate subdirectories will be created if they
+      do not exist. Since Ansible 1.7 they will be created with the supplied permissions.
+    - If C(file), with no other options, returns the current state of C(path).
+    - If C(file), even with other options (such as C(mode)), the file will be mod
+
+
+
+
