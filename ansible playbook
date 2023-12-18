@@ -1,0 +1,36 @@
+bash-5.1$ cat filework.yaml
+---
+- name: File operations
+  hosts: mnode1
+  tasks:
+   - name: create file
+     file:
+      path: /tmp/2.txt
+      state: touch
+
+bash-5.1$
+
+
+#verify the playbook syntax
+======================================================================
+ansible-playbook filework.yaml --syntax-check
+ERROR! We were unable to read either as JSON nor YAML, these are the errors we got from each:
+JSON: Expecting value: line 1 column 1 (char 0)
+
+Syntax Error while loading YAML.
+  did not find expected '-' indicator
+
+The error appears to be in '/home/ansadmin/proj-automations/filework.yaml': line 8, column 5, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+      path: /tmp/2.txt
+    state: touch
+    ^ here
+
+====================================After correction ==================================
+bash-5.1$ vi filework.yaml
+bash-5.1$ ansible-playbook filework.yaml --syntax-check
+
+playbook: filework.yaml
