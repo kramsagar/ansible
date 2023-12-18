@@ -1,1 +1,57 @@
+#ansible.cfg
+[defaults]
+inventory=/home/ansadmin/proj-automations/inventory
+remote_user=ansadmin
+ask_pass=false
+#forks=1
+[privilege_escalation]
+become=true
+become_user=root
+become_method=sudo
+become_ask_pass=false
+=================================================================
+bash-5.1$ ansible all -m shell -a "whoami"
+mnode1 | FAILED | rc=-1 >>
+Missing sudo password
+mnode4 | FAILED | rc=-1 >>
+Missing sudo password
+mnode2 | FAILED | rc=-1 >>
+Missing sudo password
+mnode3 | FAILED | rc=-1 >>
+Missing sudo password
+=========================================now make become_ask_pass=true =======================
+bash-5.1$ ansible all -m shell -a "whoami"
+BECOME password:
+mnode3 | CHANGED | rc=0 >>
+root
+mnode2 | CHANGED | rc=0 >>
+root
+mnode4 | CHANGED | rc=0 >>
+root
+mnode1 | CHANGED | rc=0 >>
+root
+==============================================================================================
+bash-5.1$ ansible all -m shell -a "whoami" -k
+SSH password:
+BECOME password[defaults to SSH password]:   ##if you enter without password, it takes default password of SSH user
+mnode2 | CHANGED | rc=0 >>
+root
+mnode3 | CHANGED | rc=0 >>
+root
+mnode1 | CHANGED | rc=0 >>
+root
+mnode4 | CHANGED | rc=0 >>
+root
+==============================================================================================
+bash-5.1$ ansible all -m shell -a "whoami" -K
+BECOME password:
+mnode4 | CHANGED | rc=0 >>
+root
+mnode1 | CHANGED | rc=0 >>
+root
+mnode3 | CHANGED | rc=0 >>
+root
+mnode2 | CHANGED | rc=0 >>
+root
+bash-5.1$
 
