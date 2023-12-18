@@ -1,0 +1,40 @@
+1. File operations
+=====================
+bash-5.1$ ansible all -m file -a "path=/tmp/1 state=touch"
+mnode1 | CHANGED => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": true,
+    "dest": "/tmp/1",
+    "gid": 1002,
+    "group": "ansadmin",
+    "mode": "0664",
+    "owner": "ansadmin",
+    "secontext": "unconfined_u:object_r:user_tmp_t:s0",
+    "size": 0,
+    "state": "file",
+    "uid": 1002
+}
+=========================================================================================================
+bash-5.1$ ansible all -m shell -a "ls -ltr /tmp/1"
+mnode3 | CHANGED | rc=0 >>
+-rw-rw-r--. 1 ansadmin ansadmin 0 Dec 18 21:41 /tmp/1
+=========================================================================================================
+bash-5.1$ ansible all -m file -a "path=/tmp/1 state=absent"
+mnode2 | CHANGED => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": true,
+    "path": "/tmp/1",
+    "state": "absent"
+}
+=========================================================================================================
+bash-5.1$ ansible all -m shell -a "ls -ltr /tmp/1"
+mnode2 | FAILED | rc=2 >>
+ls: cannot access '/tmp/1': No such file or directorynon-zero return code
+
+=========================================================================================================
+
+
