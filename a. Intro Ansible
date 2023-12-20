@@ -1,3 +1,20 @@
-1. Ansible an open source automation platform
-2. Ansible is built on python. developer need to know about Python for developing the ansible. Its good to have.
-3. 
+1. Ansible an open source automation platform -> 
+        it is a simple automation language that can accurately describe an IT application infrastructure in Ansible playbook.
+        it is also ansible automation engine that runs the ansible playbooks.
+        it is simple to use, power (can does lot of usecases, entire orchstrate entire lifecycle of application)
+        it is agentless - no client/remote side configuration/installation required. 
+
+2. Ansible is language of Devops
+3. Ansible is built on python. developer need to know about Python for developing the ansible. Its good to have.
+4. Ansible is push based architecture.
+5. Ansible is configuration management tool -. like modifying the CI (OSlevel), user management, firewal etc.,
+6. Ansible is a deployer / provision tool -> you can install new software. 
+7. Ansible is based upon SSH / winrm communication. 
+8. architecture:
+  controlenode - server machine which has ansible packages.
+  managed nodes - remote machine where you want to do some modifications.
+  inventory - list of managed hosts
+  yaml - datastrucuture representation language - yet another markup language
+  playbook - set of tasks applied on specific set of machine/s. 
+  modules - it is small python program which will do the actual execution of task.
+
