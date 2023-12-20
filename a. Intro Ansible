@@ -16,5 +16,9 @@
   inventory - list of managed hosts
   yaml - datastrucuture representation language - yet another markup language
   playbook - set of tasks applied on specific set of machine/s. 
-  modules - it is small python program which will do the actual execution of task.
+  modules - it is small python program which will do the actual execution of task. - like copy, dnf, service etc.,
+  plugins - how to connect to vm , physical machine, cloud etc, using ssh plugin or winrm plugin or docker or email -> this is extension to the ansible engine.
+
+  
+        
 
