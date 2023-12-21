@@ -1,0 +1,9 @@
+The Red Hat Insights for Red Hat Ansible Automation Platform service, named Insights in the
+web interface, collects data from your automation controller systems and generates graphical
+reports that can help you better understand automation utilization in your organization.
+
+To get an Ansible Automation Platform subscription, enroll in the Ansible Automation Platform
+trial. That subscription allows you to access the Ansible Automation Platform services on the
+Red Hat Hybrid Cloud Console. Navigate to https://console.redhat.com/ansible and request an
+evaluation
+
