@@ -1,0 +1,8 @@
+Ansible is built around an agentless architecture. 
+
+Typically, Ansible connects to the hosts it manages by using OpenSSH or WinRM and runs tasks, often (but not always) by pushing out small programs called Ansible modules to those hosts
+
+These programs are used to put the system in a specific desired state.Any modules that are pushed are removed when Ansible has finished its tasks.
+
+
+
