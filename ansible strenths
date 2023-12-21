@@ -1,0 +1,26 @@
+Ansible has a number of important strengths:
+===================================================================================================
+Cross platform support: Ansible provides agentless support for Linux, Windows, UNIX, and
+network devices, in physical, virtual, cloud, and container environments
+
+Human-readable automation: Ansible Playbooks, written as YAML text files, are easy to read and
+help ensure that everyone understands what they do
+
+Precise application descriptions: Every change can be made by Ansible Playbooks, and every
+aspect of your application environment can be described and documented.
+
+Easy to manage in version control: Ansible Playbooks and projects are plain text. They can be
+treated like source code and placed in your existing version control system.
+
+Support for dynamic inventories: The list of machines that Ansible manages can be dynamically
+updated from external sources to capture the correct, current list of all managed servers all the
+time, regardless of infrastructure or location.
+
+Orchestration that integrates easily with other systems: HP SA, Puppet, Jenkins, Red Hat
+Satellite, and other systems that exist in your environment can be leveraged and integrated into
+your Ansible workflow
+
+> Ansible: The Language of DevOps
+> Communication is the key to DevOps. Ansible is the first automation language that can be read
+and written across IT.
+
