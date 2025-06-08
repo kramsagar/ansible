@@ -15,3 +15,24 @@
     image_id: ami-04b70fa74e45c3917
     tags:
       Environment: Testing
+
+
+- name: start an instance with a public IP address
+  amazon.aws.ec2_instance:
+    name: "{{ item.name }}"
+    # key_name: "prod-ssh-key"
+    # vpc_subnet_id: subnet-013744e41e8088axx
+    instance_type: "{{ ins_type }}"
+    security_group: default
+    region: "{{ aws_region }}"
+    aws_access_key: "{{ec2_access_key}}"  # From vault as defined
+    aws_secret_key: "{{ec2_secret_key}}"  # From vault as defined      
+    network:
+      assign_public_ip: true
+    image_id: "{{ item.image }}"
+    tags:
+      Environment: Testing
+  loop:
+    - {"image": "ami-0731becbf832f281e", "name": "ubuntu1"}
+    - {"image": "ami-005f0d81384686e83", "name": "ubuntu2"}
+    - {"image": "ami-02457590d33d576c3", "name": "awsimage"}
