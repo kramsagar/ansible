@@ -1,0 +1,20 @@
+---
+- name: copy to local play
+  hosts: local
+  tasks:
+    - name: copy task to local server
+      copy:
+        src: index.html
+        dest: ~/index1.html
+        mode: '777'
+
+    - name: display content of dest file
+      shell: |
+        cat ~/index1.html
+        hostname
+        ls -ltr ~/index1.html
+      register: shell_output
+
+    - name: show shell output
+      debug:
+        var: shell_output.stdout

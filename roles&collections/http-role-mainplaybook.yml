@@ -1,0 +1,5 @@
+---
+- name: setup webserver by roles
+  hosts: local
+  roles:
+    - httpd

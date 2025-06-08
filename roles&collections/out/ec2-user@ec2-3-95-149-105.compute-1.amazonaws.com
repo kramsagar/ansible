@@ -1,0 +1,1 @@
+{"ansible_facts": {"ansible_proc_cmdline": {"BOOT_IMAGE": "(hd0,gpt3)/boot/vmlinuz-6.12.0-55.9.1.el10_0.x86_64", "console": ["tty0", "ttyS0,115200n8"], "crashkernel": "2G-64G:256M,64G-:512M", "nvme_core.io_timeout": "4294967295", "root": "UUID=266a8881-a1f0-4bfd-932c-685f3bfa17ff"}, "discovered_interpreter_python": "/usr/bin/python3"}, "changed": false}
