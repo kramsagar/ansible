@@ -1,0 +1,16 @@
+---
+- name: Create user on all dynamic hosts
+  hosts: all
+  become: yes
+  tasks:
+    - name: Create user "devopsuser"
+      ansible.builtin.user:
+        name: ansible
+        shell: /bin/bash
+        state: present
+      register: output
+    
+    - name: output
+      debug:
+        var: output
+
