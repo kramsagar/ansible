@@ -1,0 +1,20 @@
+- name: Execute only on dynamic subset (using `add_host`)
+  hosts: localhost
+  tasks:
+    - name: Add a host to dynamic group
+      ansible.builtin.add_host:
+        name: "192.168.1.9"
+        groups: dynamic_targets
+        ansible_user: autouser
+
+- name: Now run tasks on dynamically added hosts
+  hosts: dynamic_targets
+  gather_facts: false
+  tasks:
+    - name: run shell
+      shell: "pwd;cd /tmp/;ls -ltr"
+      register: output
+    - debug:
+        var: output
+
+#ansible-playbook superdynamicplaybook.yml --ask-pass
