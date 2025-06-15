@@ -1,4 +1,5 @@
 <html><body>
 Server {{ inventory_hostname }}
 OS     {{ ansible_os_family }}
+native node env variable {{ lookup('env', 'USER') }}
 </body></html>
