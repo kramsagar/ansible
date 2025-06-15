@@ -1,0 +1,24 @@
+- name: install and run Apache
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: install httpd
+      package:
+        name: httpd
+        state: present
+
+    - name: create default index.html from template
+      template:
+        src: web_index.j2
+        dest: /var/www/html/index.html
+        mode: "0644"
+
+
+#[rkyasan44@localhost ~]$ curl http://192.168.1.9/
+#<html><body>
+#Server rkyasan44@192.168.1.9
+#OS     RedHat
+#</body></html>
+#[rkyasan44@localhost ~]$

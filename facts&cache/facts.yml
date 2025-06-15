@@ -1,0 +1,12 @@
+---
+- name: Show local host network interface list
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Get local host network interfaces
+      ansible.builtin.command: "ip -o link show"
+      register: output
+
+    - name: Show output
+      ansible.builtin.debug:
+        var: output.stdout_lines

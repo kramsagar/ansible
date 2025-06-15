@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  tasks:
+    - set_fact:
+        name: "{{ ansible_distribution }}"
+        type: "{% if ansible_distribution == 'RedHat' %}RedHat{% else %}Linux{% endif %}"
+
+    - debug:
+        msg: |
+          {% if name != "" %}
+            The name of the machine is {{ name }}
+            and the host name is {{ type }}.
+          {% endif %}
+
+    - name: read lan interface info
+      ansible.builtin.command: "ip -o link show"
+      register: output
+
+    
+
+    - name: extract interface name from output
+      ansible.builtin.set_fact:
+        #1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000\\\\    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00', '2: ens160: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP mode DEFAULT group default qlen 1000\\\\    link/ether 00:0c:29:0e:98:80 brd ff:ff:ff:ff:ff:ff\\\\    altname enp3s
+        lan_interfaces: "{{ output.stdout_lines | map('regex_replace', '^\\d+: (\\S+):.*$', '\\1') | list }}"
+    
+    - debug:
+        msg: "The LAN interfaces are: {{ lan_interfaces }}"
